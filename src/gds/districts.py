@@ -4,4 +4,7 @@ from constants.urls import URL_GDS_DISTRICTS
 
 
 def get_districts():
-    return [x["uri"] for x in requests.get(URL_GDS_DISTRICTS).json()["navigation"]]
+    response = requests.get(URL_GDS_DISTRICTS)
+    response.raise_for_status()
+    navigation = response.json()["navigation"]
+    return [x["uri"] for x in navigation]
