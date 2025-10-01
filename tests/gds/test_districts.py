@@ -1,5 +1,5 @@
 import pytest
-from requests import HTTPError
+from requests import ConnectTimeout, HTTPError
 from constants.urls import URL_GDS_DISTRICTS
 from gds.districts import get_districts
 from ..data.gds import test_gds_districts_response
@@ -22,4 +22,11 @@ def test_handle_invalid_response(requests_mock):
     )
 
     with pytest.raises(HTTPError, match="500 Server Error"):
+        get_districts()
+
+
+def test_handle_network_error(requests_mock):
+    requests_mock.get(URL_GDS_DISTRICTS, exc=ConnectTimeout)
+
+    with pytest.raises(ConnectTimeout):
         get_districts()
