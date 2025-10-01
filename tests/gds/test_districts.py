@@ -1,7 +1,7 @@
 import pytest
 from requests import ConnectTimeout, HTTPError
 from constants.urls import URL_GDS_DISTRICTS
-from gds.districts import get_districts
+from gds.districts import get_districts, District
 from ..data.gds import test_gds_districts_response
 
 
@@ -11,8 +11,14 @@ def test_get_districts(requests_mock):
     result = get_districts()
 
     assert result == [
-        "/INTERSHOP/rest/WFS/HLBG-Geodaten-Site/-/downloadcenter?path=3D-Daten%2FDigitales+Gel%C3%A4ndemodell+%28DGM1%29%2FHochtaunuskreis",
-        "/INTERSHOP/rest/WFS/HLBG-Geodaten-Site/-/downloadcenter?path=3D-Daten%2FDigitales+Gel%C3%A4ndemodell+%28DGM1%29%2FLahn-Dill-Kreis",
+        District(
+            "Hochtaunuskreis",
+            "/INTERSHOP/rest/WFS/HLBG-Geodaten-Site/-/downloadcenter?path=3D-Daten%2FDigitales+Gel%C3%A4ndemodell+%28DGM1%29%2FHochtaunuskreis",
+        ),
+        District(
+            "Lahn-Dill-Kreis",
+            "/INTERSHOP/rest/WFS/HLBG-Geodaten-Site/-/downloadcenter?path=3D-Daten%2FDigitales+Gel%C3%A4ndemodell+%28DGM1%29%2FLahn-Dill-Kreis",
+        ),
     ]
 
 
