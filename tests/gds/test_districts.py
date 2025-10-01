@@ -4,8 +4,7 @@ from ..data.gds import test_gds_districts_response
 
 
 def test_get_districts(requests_mock):
-    response = test_gds_districts_response
-    requests_mock.get(URL_GDS_DISTRICTS, json=response)
+    requests_mock.get(URL_GDS_DISTRICTS, json=test_gds_districts_response)
 
     result = get_districts()
 
