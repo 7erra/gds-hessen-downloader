@@ -6,8 +6,7 @@ from constants.urls import URL_GDS_BASE
 from urllib.parse import quote
 
 
-if __name__ == "__main__":
-    _, download_dir = sys.argv
+def main(download_dir: str):
     for district in get_districts():
         district_print_message = f"### Downloading district {district.name} ###"
         print("#" * len(district_print_message))
@@ -18,3 +17,8 @@ if __name__ == "__main__":
                 f"{URL_GDS_BASE}{quote(muncipality.uri)}",
                 f"{download_dir}/{muncipality.name}.zip",
             )
+
+
+if __name__ == "__main__":
+    _, download_dir = sys.argv
+    main(download_dir)
