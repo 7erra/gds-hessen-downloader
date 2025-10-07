@@ -5,6 +5,7 @@ from download import download
 from gds.muncipalities import get_muncipalities
 from constants.urls import URL_GDS_BASE
 from urllib.parse import quote, urljoin
+import argparse
 
 
 def main(download_dir: str):
@@ -25,5 +26,11 @@ def main(download_dir: str):
 
 
 if __name__ == "__main__":
-    _, download_dir = sys.argv
-    main(download_dir)
+    parser = argparse.ArgumentParser(
+        description="Download all DGM1 data from gds.hessen.de"
+    )
+    parser.add_argument("out", help="Directory where downloaded files will be stored")
+
+    args = parser.parse_args()
+
+    main(args.out)
