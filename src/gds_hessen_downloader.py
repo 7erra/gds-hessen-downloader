@@ -1,9 +1,10 @@
 import sys
+from pathlib import Path
 from gds.districts import get_districts
 from download import download
 from gds.muncipalities import get_muncipalities
 from constants.urls import URL_GDS_BASE
-from urllib.parse import quote
+from urllib.parse import quote, urljoin
 
 
 def main(download_dir: str):
@@ -12,10 +13,10 @@ def main(download_dir: str):
         print("#" * len(district_print_message))
         print(district_print_message)
         print("#" * len(district_print_message))
-        for muncipality in get_muncipalities(f"{URL_GDS_BASE}/{district.uri}"):
+        for muncipality in get_muncipalities(urljoin(URL_GDS_BASE, district.uri)):
             download(
-                f"{URL_GDS_BASE}{quote(muncipality.uri)}",
-                f"{download_dir}/{muncipality.name}.zip",
+                urljoin(URL_GDS_BASE, quote(muncipality.uri)),
+                str(Path(download_dir, f"{muncipality.name}.zip")),
             )
 
 
