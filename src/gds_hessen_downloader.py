@@ -14,10 +14,14 @@ def main(download_dir: str):
         print(district_print_message)
         print("#" * len(district_print_message))
         for muncipality in get_muncipalities(urljoin(URL_GDS_BASE, district.uri)):
-            download(
-                urljoin(URL_GDS_BASE, quote(muncipality.uri)),
-                str(Path(download_dir, f"{muncipality.name}.zip")),
-            )
+            try:
+                download(
+                    urljoin(URL_GDS_BASE, quote(muncipality.uri)),
+                    str(Path(download_dir, f"{muncipality.name}.zip")),
+                )
+            except RuntimeError as e:
+                print(f"Download of file {muncipality.name} failed")
+                print(e)
 
 
 if __name__ == "__main__":
