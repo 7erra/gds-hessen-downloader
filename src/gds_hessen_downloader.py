@@ -1,4 +1,3 @@
-import sys
 from pathlib import Path
 from gds.districts import get_districts
 from download import download
