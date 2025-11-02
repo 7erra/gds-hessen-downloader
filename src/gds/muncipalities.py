@@ -17,8 +17,23 @@ class Muncipality:
         )
 
 
-def get_muncipalities(uri: str):
-    response = requests.get(uri)
+def _get_downloads(uri: str, page: int = 1):
+    response = requests.get(f"{uri}&page={page}")
     response.raise_for_status()
-    downloads = response.json()["searchresult"]["downloads"]
+
+    json = response.json()
+
+    paging = json["searchresult"]["paging"]
+    pageSize = paging["pageSize"]
+    total = paging["total"]
+    downloads: list = json["searchresult"]["downloads"]
+
+    if pageSize * page < total:
+        downloads += _get_downloads(uri, page + 1)
+
+    return downloads
+
+
+def get_muncipalities(uri: str):
+    downloads = _get_downloads(uri)
     return [Muncipality(x["name"], x["downloadLink"]["uri"]) for x in downloads]
